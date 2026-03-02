@@ -1121,15 +1121,14 @@ interface GatewayOptions {
   userContent: string;
   systemPrompts: string[];
   sessionKey: string;
-  accountId: string;  // 添加 accountId，用于多 agent 路由
   gatewayAuth?: string;  // token 或 password，都用 Bearer 格式
   /** 本地图片文件路径列表，用于 OpenClaw AgentMediaPayload */
   imageLocalPaths?: string[];
   log?: any;
 }
 
-async function* streamFromGateway(options: GatewayOptions): AsyncGenerator<string, void, unknown> {
-  const { userContent, systemPrompts, sessionKey, accountId, gatewayAuth, imageLocalPaths, log } = options;
+async function* streamFromGateway(options: GatewayOptions, accountId: string): AsyncGenerator<string, void, unknown> {
+  const { userContent, systemPrompts, sessionKey, gatewayAuth, imageLocalPaths, log } = options;
   const rt = getRuntime();
   const gatewayUrl = `http://127.0.0.1:${rt.gateway?.port || 18789}/v1/chat/completions`;
 
@@ -1151,6 +1150,8 @@ async function* streamFromGateway(options: GatewayOptions): AsyncGenerator<strin
   if (gatewayAuth) {
     headers['Authorization'] = `Bearer ${gatewayAuth}`;
   }
+  // 使用 HTTP Header 传递 accountId 用于 agent 路由
+  headers['X-OpenClaw-Agent-Id'] = accountId;
 
   log?.info?.(`[DingTalk][Gateway] POST ${gatewayUrl}, session=${sessionKey}, accountId=${accountId}, messages=${messages.length}`);
 
@@ -1162,7 +1163,6 @@ async function* streamFromGateway(options: GatewayOptions): AsyncGenerator<strin
       messages,
       stream: true,
       user: sessionKey,  // 用于 session 持久化
-      accountId,  // 传递 accountId 用于 agent 路由
     }),
   });
 
@@ -2389,11 +2389,10 @@ async function handleDingTalkMessage(params: {
         userContent,
         systemPrompts,
         sessionKey,
-        accountId,
         gatewayAuth,
         imageLocalPaths: imageLocalPaths.length > 0 ? imageLocalPaths : undefined,
         log,
-      })) {
+      }, accountId)) {
         accumulated += chunk;
         chunkCount++;
 
@@ -2470,11 +2469,10 @@ async function handleDingTalkMessage(params: {
         userContent,
         systemPrompts,
         sessionKey,
-        accountId,
         gatewayAuth,
         imageLocalPaths: imageLocalPaths.length > 0 ? imageLocalPaths : undefined,
         log,
-      })) {
+      }, accountId)) {
         fullResponse += chunk;
       }
 
