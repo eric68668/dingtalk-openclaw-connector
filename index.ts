@@ -9,5 +9,5 @@ import type { PluginApi } from "openclaw/plugin-sdk/feishu";
 import { dingtalkPlugin } from "./src/channel.js";
 
 export default function register(api: PluginApi) {
-  api.registerChannelPlugin(dingtalkPlugin);
+  api.registerChannel({ plugin: dingtalkPlugin });
 }

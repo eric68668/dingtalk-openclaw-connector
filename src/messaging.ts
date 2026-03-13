@@ -49,7 +49,6 @@ export interface SendResult {
 export interface ProactiveSendOptions {
   msgType?: DingTalkMsgType;
   replyToId?: string;
-}
   title?: string;
   log?: any;
   useAICard?: boolean;
