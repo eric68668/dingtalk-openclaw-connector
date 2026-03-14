@@ -98,7 +98,7 @@ export const dingtalkPlugin: ChannelPlugin<ResolvedDingtalkAccount> = {
       properties: {
         enabled: { type: "boolean" },
         defaultAccount: { type: "string" },
-        clientId: { type: "string" },
+        clientId: { oneOf: [{ type: "string" }, { type: "number" }] },
         clientSecret: secretInputJsonSchema,
         enableMediaUpload: { type: "boolean" },
         systemPrompt: { type: "string" },
@@ -159,7 +159,7 @@ export const dingtalkPlugin: ChannelPlugin<ResolvedDingtalkAccount> = {
             properties: {
               enabled: { type: "boolean" },
               name: { type: "string" },
-              clientId: { type: "string" },
+              clientId: { oneOf: [{ type: "string" }, { type: "number" }] },
               clientSecret: secretInputJsonSchema,
               enableMediaUpload: { type: "boolean" },
               systemPrompt: { type: "string" },

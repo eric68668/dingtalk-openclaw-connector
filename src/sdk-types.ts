@@ -83,7 +83,7 @@ export interface DingtalkGroupConfig {
 export interface DingtalkAccountConfig {
   enabled?: boolean;
   name?: string;
-  clientId?: string;
+  clientId?: string | number;
   clientSecret?: SecretInput;
   enableMediaUpload?: boolean;
   systemPrompt?: string;
@@ -108,7 +108,7 @@ export interface DingtalkAccountConfig {
 export interface DingtalkConfig {
   enabled?: boolean;
   defaultAccount?: string;
-  clientId?: string;
+  clientId?: string | number;
   clientSecret?: SecretInput;
   enableMediaUpload?: boolean;
   systemPrompt?: string;

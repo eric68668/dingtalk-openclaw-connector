@@ -74,7 +74,7 @@ export const DingtalkAccountConfigSchema = z
   .object({
     enabled: z.boolean().optional(),
     name: z.string().optional(), // Display name for this account
-    clientId: z.string().optional(),
+    clientId: z.union([z.string(), z.number()]).optional(),
     clientSecret: buildSecretInputSchema().optional(),
     ...DingtalkSharedConfigShape,
   })
@@ -85,7 +85,7 @@ export const DingtalkConfigSchema = z
     enabled: z.boolean().optional(),
     defaultAccount: z.string().optional(),
     // Top-level credentials (backward compatible for single-account mode)
-    clientId: z.string().optional(),
+    clientId: z.union([z.string(), z.number()]).optional(),
     clientSecret: buildSecretInputSchema().optional(),
     enableMediaUpload: z.boolean().optional(),
     systemPrompt: z.string().optional(),

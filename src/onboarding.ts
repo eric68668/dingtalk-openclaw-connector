@@ -20,6 +20,9 @@ import type { DingtalkConfig } from "./types.ts";
 const channel = "dingtalk-connector" as const;
 
 function normalizeString(value: unknown): string | undefined {
+  if (typeof value === "number") {
+    return String(value);
+  }
   if (typeof value !== "string") {
     return undefined;
   }

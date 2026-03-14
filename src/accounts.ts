@@ -120,6 +120,9 @@ export function resolveDingtalkCredentials(
   clientSecret: string;
 } | null {
   const normalizeString = (value: unknown): string | undefined => {
+    if (typeof value === "number") {
+      return String(value);
+    }
     if (typeof value !== "string") {
       return undefined;
     }
