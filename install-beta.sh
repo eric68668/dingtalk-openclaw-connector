@@ -229,6 +229,11 @@ if echo "$INSTALLED_PLUGINS" | grep -q "dingtalk-connector"; then
     if [ "$UNINSTALL_FAILED" = true ] && [ "$HAS_JQ" = true ]; then
         echo "🧹 清理配置文件中的残留配置..."
         if [ -f "$CONFIG_FILE" ]; then
+            # 先保存 dingtalk-connector 配置，用于后续恢复
+            SAVED_CONNECTOR_CONFIG=$(mktemp)
+            TEMP_FILES+=("$SAVED_CONNECTOR_CONFIG")
+            jq '.channels."dingtalk-connector" // {}' "$CONFIG_FILE" > "$SAVED_CONNECTOR_CONFIG"
+            
             TEMP_CLEANUP=$(mktemp)
             TEMP_FILES+=("$TEMP_CLEANUP")
             
@@ -240,6 +245,7 @@ if echo "$INSTALLED_PLUGINS" | grep -q "dingtalk-connector"; then
                   "$CONFIG_FILE" > "$TEMP_CLEANUP"; then
                 mv "$TEMP_CLEANUP" "$CONFIG_FILE"
                 echo "✅ 配置文件已清理（channels + plugins + load paths）"
+                echo "💾 已保存 dingtalk-connector 配置，将在安装后恢复"
             else
                 echo "⚠️  无法清理配置文件，请手动检查"
                 rm -f "$TEMP_CLEANUP"
@@ -255,6 +261,38 @@ fi
 # 安装新版本
 echo "✨ 安装新版本..."
 openclaw plugins install -l .
+
+# 如果之前保存了配置，现在恢复
+if [ "$UNINSTALL_FAILED" = true ] && [ "$HAS_JQ" = true ] && [ -f "$SAVED_CONNECTOR_CONFIG" ]; then
+    echo "🔄 恢复 dingtalk-connector 配置..."
+    
+    # 检查保存的配置是否为空对象
+    SAVED_CONFIG_CONTENT=$(cat "$SAVED_CONNECTOR_CONFIG")
+    if [ "$SAVED_CONFIG_CONTENT" != "{}" ] && [ "$SAVED_CONFIG_CONTENT" != "null" ]; then
+        TEMP_RESTORE=$(mktemp)
+        TEMP_FILES+=("$TEMP_RESTORE")
+        
+        # 将保存的配置合并回去
+        if jq --slurpfile saved "$SAVED_CONNECTOR_CONFIG" \
+              '.channels."dingtalk-connector" = $saved[0]' \
+              "$CONFIG_FILE" > "$TEMP_RESTORE"; then
+            mv "$TEMP_RESTORE" "$CONFIG_FILE"
+            echo "✅ 配置已恢复"
+            
+            # 显示恢复的配置信息
+            RESTORED_CLIENT_ID=$(jq -r '.channels."dingtalk-connector".clientId // empty' "$CONFIG_FILE")
+            if [ -n "$RESTORED_CLIENT_ID" ]; then
+                echo "   - clientId: ${RESTORED_CLIENT_ID:0:12}..."
+                echo "   - clientSecret: [已恢复]"
+            fi
+        else
+            echo "⚠️  配置恢复失败，请手动检查"
+            rm -f "$TEMP_RESTORE"
+        fi
+    else
+        echo "ℹ️  未发现需要恢复的配置"
+    fi
+fi
 
 # 重启 Gateway
 echo "🔄 重启 Gateway..."
