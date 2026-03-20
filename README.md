@@ -279,20 +279,26 @@ openclaw logs --follow
   "agents": {
     "list": [
       {
-        "agentId": "ding-bot1",
+        "id": "ding-bot1",
+        "name": "钉钉客服机器人",
         "model": "your-model-config",
-        "persona": {
-          "name": "钉钉客服机器人",
-          "systemPrompt": "你是一个专业的客服助手..."
+        "workspace": "~/.openclaw/workspace-bot1",
+        "identity": {
+          "name": "客服小助手",
+          "theme": "专业客服",
+          "emoji": "🤝"
         }
         // 其他 agent 配置...
       },
       {
-        "agentId": "ding-bot2",
+        "id": "ding-bot2",
+        "name": "钉钉技术支持机器人",
         "model": "your-model-config",
-        "persona": {
-          "name": "钉钉技术支持机器人",
-          "systemPrompt": "你是一个技术支持专家..."
+        "workspace": "~/.openclaw/workspace-bot2",
+        "identity": {
+          "name": "技术专家",
+          "theme": "技术支持",
+          "emoji": "🔧"
         }
         // 其他 agent 配置...
       }

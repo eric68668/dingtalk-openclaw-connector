@@ -268,20 +268,26 @@ Configure multiple bots connected to different agents:
   "agents": {
     "list": [
       {
-        "agentId": "ding-bot1",
+        "id": "ding-bot1",
+        "name": "Customer Service Bot",
         "model": "your-model-config",
-        "persona": {
-          "name": "Customer Service Bot",
-          "systemPrompt": "You are a professional customer service assistant..."
+        "workspace": "~/.openclaw/workspace-bot1",
+        "identity": {
+          "name": "Service Assistant",
+          "theme": "customer service",
+          "emoji": "🤝"
         }
         // Other agent configurations...
       },
       {
-        "agentId": "ding-bot2",
+        "id": "ding-bot2",
+        "name": "Technical Support Bot",
         "model": "your-model-config",
-        "persona": {
-          "name": "Technical Support Bot",
-          "systemPrompt": "You are a technical support expert..."
+        "workspace": "~/.openclaw/workspace-bot2",
+        "identity": {
+          "name": "Tech Expert",
+          "theme": "technical support",
+          "emoji": "🔧"
         }
         // Other agent configurations...
       }
