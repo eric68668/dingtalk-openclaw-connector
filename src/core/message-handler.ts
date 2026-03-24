@@ -15,7 +15,25 @@
  * - 钉钉 API 调用（accessToken、文件下载）
  * - 与 OpenClaw 框架集成（bindings、runtime）
  */
-import type { ClawdbotConfig, RuntimeEnv, HistoryEntry } from "openclaw/plugin-sdk";
+// 类型定义
+interface ClawdbotConfig {
+  [key: string]: any;
+}
+
+interface RuntimeEnv {
+  log?: (...args: any[]) => void;
+  error?: (...args: any[]) => void;
+  warn?: (...args: any[]) => void;
+  debug?: (...args: any[]) => void;
+  info?: (...args: any[]) => void;
+  [key: string]: any;
+}
+
+interface HistoryEntry {
+  role: string;
+  content: string;
+  [key: string]: any;
+}
 import type { ResolvedDingtalkAccount, DingtalkConfig } from "../types/index.ts";
 import { 
   buildSessionContext,
@@ -1101,7 +1119,7 @@ export async function handleDingTalkMessageInternal(params: HandleMessageParams)
           );
 
           // ✅ 处理裸露的本地文件路径（绕过 OpenClaw SDK 的 bug）
-          const { processRawMediaPaths } = await import('../services/media.js');
+          const { processRawMediaPaths } = await import('../services/media');
           finalText = await processRawMediaPaths(
             finalText,
             config,

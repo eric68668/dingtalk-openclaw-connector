@@ -93,7 +93,7 @@ export async function uploadMediaToDingTalk(
     if ((mediaType === 'video' || mediaType === 'file') && fileSize > CHUNK_CONFIG.SIZE_THRESHOLD) {
       log?.info?.(`文件超过 20MB，使用分块上传：${absPath} (${fileSizeMB}MB)`);
       try {
-        const { uploadLargeFileByChunks } = await import('./chunk-upload.js');
+        const { uploadLargeFileByChunks } = await import('./chunk-upload');
         const downloadCode = await uploadLargeFileByChunks(absPath, mediaType, oapiToken, debugEnabled);
         if (downloadCode) {
           log?.info?.(`分块上传成功：${absPath}, download_code: ${downloadCode}`);
@@ -126,10 +126,10 @@ export async function uploadMediaToDingTalk(
     log?.info?.(`上传文件：${absPath} (${fileSizeMB}MB), uploadType=${uploadType}`);
     const resp = await dingtalkUploadHttp.post(
       `${DINGTALK_OAPI}/media/upload`,
-      formData,
+      form,
       {
         params: { access_token: oapiToken, type: mediaType },
-        headers: formData.getHeaders(),
+        headers: form.getHeaders(),
         timeout: 60_000,
         maxBodyLength: Infinity,
       },

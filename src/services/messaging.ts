@@ -697,7 +697,7 @@ export async function sendMediaToDingTalk(params: {
       const videoMarker = `[DINGTALK_VIDEO]{"path":"${mediaUrl}"}[/DINGTALK_VIDEO]`;
 
       // 直接处理视频标记（上传并发送视频消息）
-      const { processVideoMarkers } = await import("./media.js");
+      const { processVideoMarkers } = await import("./media");
       await processVideoMarkers(
         videoMarker, // 只传入标记，不包含原始文本
         "",
