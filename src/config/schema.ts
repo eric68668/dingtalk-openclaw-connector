@@ -54,7 +54,6 @@ const DingtalkSharedConfigShape = {
   requireMention: z.boolean().optional(),
   groups: z.record(z.string(), DingtalkGroupSchema.optional()).optional(),
   historyLimit: z.number().int().min(0).optional(),
-  dmHistoryLimit: z.number().int().min(0).optional(),
   textChunkLimit: z.number().int().positive().optional(),
   mediaMaxMb: z.number().positive().optional(),
   tools: DingtalkToolsConfigSchema,

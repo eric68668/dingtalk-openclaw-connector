@@ -13,8 +13,8 @@ This release introduces **quoted message parsing**, **macOS LaunchAgent compatib
   Added `extractQuotedMsgText` for recursive quoted message parsing (up to 3 levels), supporting text, richText, picture, video, audio, file, markdown, and interactiveCard message types. Media attachments in quoted messages are automatically extracted and passed downstream. URLs from quoted text messages are extracted for URL routing (e.g., alidocs document links).
 
 - **新增配置项 / New configuration options**  
-  `configSchema` 新增 `asyncMode`、`ackText`、`endpoint`、`debug` 四个配置字段，账号级别新增 `dmHistoryLimit` 支持，为异步消息处理和自定义端点提供灵活配置能力。  
-  Added `asyncMode`, `ackText`, `endpoint`, `debug` to `configSchema`, and `dmHistoryLimit` at account level, enabling flexible configuration for async message processing and custom endpoints.
+  `configSchema` 新增 `asyncMode`、`ackText`、`endpoint`、`debug` 四个配置字段，为异步消息处理和自定义端点提供灵活配置能力。  
+  Added `asyncMode`, `ackText`, `endpoint`, `debug` to `configSchema`, enabling flexible configuration for async message processing and custom endpoints.
 
 - **普通消息本地图片后处理 / Local image post-processing for normal messages**  
   `sendNormalToUser` 和 `sendNormalToGroup` 新增本地图片上传后处理，发送普通消息时自动将 Markdown 中的本地图片路径上传到钉钉并替换为 media_id，与 AI Card 消息行为保持一致。  

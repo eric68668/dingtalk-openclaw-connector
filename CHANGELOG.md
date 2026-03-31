@@ -11,8 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ✨ **引用消息完整解析** - 新增 `extractQuotedMsgText` 递归解析引用消息（最多 3 层嵌套），支持 text、richText、picture、video、audio、file、markdown、interactiveCard 等消息类型，自动提取引用中的媒体附件和链接  
   **Quoted message full parsing** - Added recursive quoted message parsing (up to 3 levels) with media attachment and URL extraction
 
-- ✨ **新增配置项 asyncMode / ackText / endpoint / debug** - `configSchema` 新增四个配置字段，账号级别新增 `dmHistoryLimit` 支持  
-  **New config options** - Added `asyncMode`, `ackText`, `endpoint`, `debug` to configSchema, and `dmHistoryLimit` at account level
+- ✨ **新增配置项 asyncMode / ackText / endpoint / debug** - `configSchema` 新增四个配置字段  
+  **New config options** - Added `asyncMode`, `ackText`, `endpoint`, `debug` to configSchema
 
 - ✨ **普通消息本地图片后处理** - `sendNormalToUser` 和 `sendNormalToGroup` 新增本地图片上传后处理，发送普通消息时自动替换本地图片路径为 media_id  
   **Local image post-processing for normal messages** - Added automatic local image upload and replacement in `sendNormalToUser` and `sendNormalToGroup`
