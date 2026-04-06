@@ -40,6 +40,17 @@
   },
   "homepage": "https://github.com/DingTalk-Real-AI/dingtalk-openclaw-connector#readme",
   "bugs": "https://github.com/DingTalk-Real-AI/dingtalk-openclaw-connector/issues",
+  "files": [
+    "index.ts",
+    "src/",
+    "docs/*.md",
+    "openclaw.plugin.json",
+    "tsconfig.json",
+    "LICENSE",
+    "README.md",
+    "README.en.md",
+    "CHANGELOG.md"
+  ],
   "publishConfig": {
     "access": "public"
   },
